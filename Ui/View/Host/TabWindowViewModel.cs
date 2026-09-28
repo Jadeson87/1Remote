@@ -422,7 +422,12 @@ namespace _1RM.View.Host
         /// <returns></returns>
         public INewTabHost<Window> GetNewHost(IInterTabClient interTabClient, object partition, TabablzControl source)
         {
-            var v = new TabWindowView();
+            var v = new TabWindowView
+            {
+                IsCreatedByDragDetach = true,
+                // Dragablz sets Left/Top/Width/Height before Show(); Manual makes them effective.
+                WindowStartupLocation = WindowStartupLocation.Manual,
+            };
             IoC.Get<SessionControlService>().AddTab(v);
             return new NewTabHost<Window>(v, v.TabablzControl);
         }
