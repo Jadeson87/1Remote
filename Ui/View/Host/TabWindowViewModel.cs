@@ -4,6 +4,7 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows;
+using System.Windows.Interop;
 using System.Timers;
 using Dragablz;
 using _1RM.Service;
@@ -159,7 +160,9 @@ namespace _1RM.View.Host
 
         private IntPtr GetCurrentTabContentWindow()
         {
-            IntPtr hWndParent = Win32Api.FindWindow(null, this.Title);
+            // Look for the visible child hwnd inside *this* window. Do NOT locate the parent by
+            // window title: after a drag-detach two TabWindowViews share the same title.
+            IntPtr hWndParent = new WindowInteropHelper(View).Handle;
             if (hWndParent == IntPtr.Zero)
             {
                 return IntPtr.Zero;
