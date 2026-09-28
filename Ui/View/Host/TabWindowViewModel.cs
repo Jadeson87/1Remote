@@ -46,6 +46,16 @@ namespace _1RM.View.Host
         private void ItemsOnCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
         {
             RaisePropertyChanged(nameof(BtnCloseAllVisibility));
+            // Dragablz inter-tab drag adds items straight to the ItemsSource, bypassing AddItem();
+            // keep the host's parent window reference in sync (used for RDP fullscreen sizing etc.).
+            // Reset (Items.Clear() on Dispose) carries no NewItems.
+            if (e.Action == NotifyCollectionChangedAction.Add && e.NewItems != null)
+            {
+                foreach (var item in e.NewItems.OfType<TabItemViewModel>())
+                {
+                    item.Content.SetParentWindow(View);
+                }
+            }
             if (Items.Count == 0)
             {
                 View.Hide();

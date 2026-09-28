@@ -23,7 +23,7 @@ namespace _1RM.View.Host
         /// <summary>
         /// True when this window was created by Dragablz to host a dragged-out tab.
         /// Such windows get their position/size from the drag operation and must not
-        /// restore the remembered window placement in Loaded.
+        /// restore the remembered window placement or state in Loaded.
         /// </summary>
         internal bool IsCreatedByDragDetach { get; set; }
 
